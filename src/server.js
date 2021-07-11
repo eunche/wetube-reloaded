@@ -12,25 +12,35 @@ const app = express();
 
 
 /*
-GET 요청의 콜백함수 모음
+Middleware 모음
 */
-const handleHome = (req, res) => {
-    return res.send("루트 페이지 입니다");
-};
 
-const handleLogin = (req, res) => {
-    return res.send("로그인 페이지 입니다");
-};
+// 사람들이 이 서버의 웹사이트의 어디를 가려는지 말해주는 미들웨어
+const logger = (req, res, next) => {
+    console.log(`${req.method} ${req.url}`);
+    next();
+}
+
 
 
 
 
 /*
-라우터 모음
-(서버가 첫번째 인자("/")주소에서 GET 요청을 받았을때, 두번째인자를 콜백함수로 부른다)
+일반 Controller 모음
 */
-app.get("/", handleHome);
-app.get("/login", handleLogin);
+const handleHome = (req, res) => {
+    return res.send("루트 페이지 입니다");
+};
+
+
+
+
+
+/*
+전역 미들웨어 & 라우트 모음
+(서버가 첫번째 인자("/")주소에서 GET 요청을 받았을때, 다음 인자들을 콜백함수로 부른다)
+*/
+app.get("/", logger, handleHome);
 
 
 
