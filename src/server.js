@@ -1,12 +1,18 @@
 import express from "express";
 import morgan from "morgan";
+import globalRouter from "./routers/globalRouter";
+import userRouter from "./routers/userRouter";
+import videoRouter from "./routers/videoRouter";
 
 
 const PORT = 4000;
 
 
 
-// app이라는 변수에(관습상 app) express 서버를 생성
+
+/*
+express 서버 생성
+*/
 const app = express();
 
 
@@ -16,33 +22,24 @@ const app = express();
 Middleware 모음
 */
 const logger = morgan("dev");
-
-
-
-
-
-
-/*
-일반 Controller 모음
-*/
-const handleHome = (req, res) => {
-    return res.send("루트 페이지 입니다");
-};
-
-
-
-
-
-/*
-전역 미들웨어 & 라우트 모음
-(서버가 첫번째 인자("/")주소에서 GET 요청을 받았을때, 다음 인자들을 콜백함수로 부른다)
-*/
 app.use(logger)
-app.get("/", handleHome);
 
 
 
 
+/*
+사용 Router 모음
+*/
+app.use("/", globalRouter);
+app.use("/users", userRouter);
+app.use("/videos", videoRouter);
+
+
+
+
+/*
+서버 Listening
+*/
 // listen의 콜백함수
 const handleListening = () => console.log(`✅ Server listening on port http://localhost:${PORT} 🚀`);
 
