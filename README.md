@@ -13,7 +13,7 @@
 * /users/remove -> Remove My Profile
 
 ## Video Router
+* /videos/upload -> Upload Video
 * /videos/:id -> See Video
 * /videos/:id/edit -> Edit Video
 * /videos/:id/remove -> Remove Video
-* /videos/upload -> Upload Video
