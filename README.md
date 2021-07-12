@@ -7,10 +7,10 @@
 * /search -> Search
 
 ## User Router
-* /users/:id -> See User
 * /users/logout -> Log Out
 * /users/edit -> Edit My Profile
 * /users/remove -> Remove My Profile
+* /users/:id -> See User
 
 ## Video Router
 * /videos/upload -> Upload Video
