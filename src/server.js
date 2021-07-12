@@ -14,6 +14,8 @@ const PORT = 4000;
 express 서버 생성
 */
 const app = express();
+app.set("view engine", "pug");
+app.set("views", `${process.cwd()}/src/views`);
 
 
 
