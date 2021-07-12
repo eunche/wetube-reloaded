@@ -1,4 +1,5 @@
 import express from "express";
+import morgan from "morgan";
 
 
 const PORT = 4000;
@@ -14,6 +15,7 @@ const app = express();
 /*
 Middleware 모음
 */
+const logger = morgan("dev");
 
 
 
@@ -35,6 +37,7 @@ const handleHome = (req, res) => {
 전역 미들웨어 & 라우트 모음
 (서버가 첫번째 인자("/")주소에서 GET 요청을 받았을때, 다음 인자들을 콜백함수로 부른다)
 */
+app.use(logger)
 app.get("/", handleHome);
 
 
