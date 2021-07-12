@@ -15,11 +15,6 @@ const app = express();
 Middleware 모음
 */
 
-// 사람들이 이 서버의 웹사이트의 어디를 가려는지 말해주는 미들웨어
-const logger = (req, res, next) => {
-    console.log(`${req.method} ${req.url}`);
-    next();
-}
 
 
 
@@ -40,7 +35,7 @@ const handleHome = (req, res) => {
 전역 미들웨어 & 라우트 모음
 (서버가 첫번째 인자("/")주소에서 GET 요청을 받았을때, 다음 인자들을 콜백함수로 부른다)
 */
-app.get("/", logger, handleHome);
+app.get("/", handleHome);
 
 
 
