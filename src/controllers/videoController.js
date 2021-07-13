@@ -1,4 +1,16 @@
-export const trending = (req, res) => res.render("home", { pageTitle: "Home" });
+export const trending = (req, res) => {
+    const videos = [
+        {
+            rating: 5,
+            comments: 2,
+        },
+        {
+            rating: 3,
+            comments: 1,
+        }
+    ];
+    return res.render("home", { pageTitle: "Home", videos });
+}
 
 export const search = (req, res) => res.send("Search");
 
