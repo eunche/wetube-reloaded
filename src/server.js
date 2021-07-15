@@ -1,3 +1,4 @@
+import "./db";
 import express from "express";
 import morgan from "morgan";
 import globalRouter from "./routers/globalRouter";
@@ -43,7 +44,7 @@ app.use("/videos", videoRouter);
 서버 Listening
 */
 // listen의 콜백함수
-const handleListening = () => console.log(`✅ Server listening on port http://localhost:${PORT} 🚀`);
+const handleListening = () => console.log(`✅ Server listening on http://localhost:${PORT} 🚀`);
 
 // express 서버의 포트개방 이후, 두번째 인자인 콜백함수를 실행시킨다.
 app.listen(PORT, handleListening);
