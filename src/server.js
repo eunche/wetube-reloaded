@@ -5,11 +5,6 @@ import userRouter from "./routers/userRouter";
 import videoRouter from "./routers/videoRouter";
 
 
-const PORT = 4000;
-
-
-
-
 /*
 express 서버 생성
 */
