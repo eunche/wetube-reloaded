@@ -5,6 +5,7 @@ mongoose.connect("mongodb://127.0.0.1:27017/wetube", {
     useUnifiedTopology: true,
     useNewUrlParser: true,
     useFindAndModify: false,
+    useCreateIndex: true,
 });
 
 // 밑에서 mongoose.connection.on(...)이렇게 해도 되지만, 코드를 깔끔하게 하기 위해 db변수에 정의
