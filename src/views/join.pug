@@ -3,16 +3,16 @@ extends base
 
 block content
     form(method="POST")
-        input(type="text", name="name", placeholder="Name", required)
+        input(type="text", name="name", value=(formValues ? formValues.name : ""), placeholder="Name", required)
         if errorMessages && errorMessages.email
-            span=errorMessages.email
-        input(type="email", name="email", value=(formValues && formValues.email ? formValues.email : ""), placeholder="Email", required)
+            span(style="color: red")=errorMessages.email
+        input(type="email", name="email", value=(formValues ? formValues.email : ""), placeholder="Email", required)
         if errorMessages && errorMessages.username
-            span=errorMessages.username
-        input(type="text", name="username", value=(formValues && formValues.username ? formValues.username : ""), placeholder="Username", required)
+            span(style="color: red")=errorMessages.username
+        input(type="text", name="username", value=(formValues ? formValues.username : ""), placeholder="Username", required)
         if errorMessages && errorMessages.password
-            span=errorMessages.password
+            span(style="color: red")=errorMessages.password
         input(type="password", name="password", placeholder="Password", required)
         input(type="password", name="password2", placeholder="Confirm Password", required)
-        input(type="text", name="location", placeholder="Location", required)
+        input(type="text", name="location", value=(formValues ? formValues.location : ""), placeholder="Location", required)
         input(type="submit", value="Join") 

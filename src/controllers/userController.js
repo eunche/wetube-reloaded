@@ -7,35 +7,31 @@ export const getJoin = (req, res) => {
 export const postJoin = async (req, res) => {
     const { name, username, email, password, password2, location } = req.body;
     let errorMessages = {};
-    let formValues = {};
-
     if (password !== password2) {
         errorMessages['password'] = "Password confirmation does not match.";
     }
-    const usernameExists = await User.exists({ username });
-    if (usernameExists) {
-        errorMessages['username'] = "This username is already exists."
-        formValues['username'] = username;
-    }
-    const emailExists = await User.exists({ email });
-    if (emailExists) {
-        errorMessages['email'] = "This email is already exists."
-        formValues['email'] = email;
-    }
 
-    const errorIsEmpty = Object.keys(errorMessages).length === 0
-    if (!errorIsEmpty) {
-        return res.status(400).render("join", { pageTitle: "Join", errorMessages, formValues });
-    }
+    try {
+        await User.create({
+            name,
+            email,
+            username,
+            password,
+            location,
+        });
+        return res.redirect("/login");
+    } catch (error) {
+        const usernameExists = await User.exists({ username });
+        if (usernameExists) {
+            errorMessages['username'] = "This username is already exists."
+        }
+        const emailExists = await User.exists({ email });
+        if (emailExists) {
+            errorMessages['email'] = "This email is already exists."
+        }
 
-    await User.create({
-        name,
-        email,
-        username,
-        password,
-        location,
-    });
-    return res.redirect("/login");
+        return res.status(400).render("join", { pageTitle: "Join", errorMessages, formValues: { name, email, username, location } });
+    }
 }
 
 export const edit = (req, res) => res.send("Edit");
