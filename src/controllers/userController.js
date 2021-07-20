@@ -23,11 +23,9 @@ export const postJoin = async (req, res) => {
         formValues['email'] = email;
     }
 
-    console.log(errorMessages);
-
     const errorIsEmpty = Object.keys(errorMessages).length === 0
     if (!errorIsEmpty) {
-        return res.render("join", { pageTitle: "Join", errorMessages, formValues });
+        return res.status(400).render("join", { pageTitle: "Join", errorMessages, formValues });
     }
 
     await User.create({
