@@ -7,11 +7,13 @@ export const getJoin = (req, res) => {
 export const postJoin = async (req, res) => {
     const { name, username, email, password, password2, location } = req.body;
     let errorMessages = {};
-    if (password !== password2) {
-        errorMessages['password'] = "Password confirmation does not match.";
-    }
 
     try {
+        if (password !== password2) {
+            errorMessages['password'] = "Password confirmation does not match.";
+            throw new Error("Password confirmation does not match.");
+        }
+
         await User.create({
             name,
             email,
