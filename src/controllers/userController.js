@@ -46,7 +46,23 @@ export const getEdit = (req, res) => {
 export const postEdit = async (req, res) => {
     const { name, email, username, location } = req.body;
     const userID = req.session.user._id;
-    const user = await User.findByIdAndUpdate(userID,
+    let errorMessages = {};
+
+    // email, username 유효성 검사
+    const loggedInUser = await User.findById(userID);
+    if ((loggedInUser.email !== email) && (await User.exists({ email }))) {
+        errorMessages.email = "This email is already exists.";
+    }
+    if ((loggedInUser.username !== username) && (await User.exists({ username }))) {
+        errorMessages.username = "This username is already exists.";
+    }
+
+    // email, username 둘 중 하나라도 유효성 검사에 통과하지 못하면, 프론트에 에러 반환
+    if (Object.keys(errorMessages).length !== 0) {
+        return res.render("edit-profile", { pageTitle: "Edit Profile", errorMessages, formValues: { name, email, username, location } });
+    }
+
+    const updatedUser = await User.findByIdAndUpdate(userID,
         {
             name,
             email,
@@ -55,9 +71,10 @@ export const postEdit = async (req, res) => {
         },
         { new: true }
     );
-    req.session.user = user;
+    req.session.user = updatedUser;
+    console.log("야호");
+    console.log(updatedUser);
     return res.redirect("/users/edit");
-
 };
 
 export const getLogin = (req, res) => {
