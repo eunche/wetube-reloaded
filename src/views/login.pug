@@ -3,14 +3,22 @@ extends base
 
 block content
     form(method="POST")
-        if errorMessages && errorMessages.username
-            span(style="color: red")=errorMessages.username
-        input(type="text", name="username", value=(formValues ? formValues.username : ""), placeholder="Username", required)
-        if errorMessages && errorMessages.password
-            span(style="color: red")=errorMessages.password
-        input(type="password", name="password", placeholder="Password", required)
+        if errorMessages && errorMessages.mainErrors.length !== 0
+            each error in errorMessages.mainErrors
+                span(style="color: red")=error
+            input(type="text", name="username", value=(formValues ? formValues.username : ""), placeholder="Username", required)
+            input(type="password", name="password", placeholder="Password", required)
+        else
+            if errorMessages && errorMessages.username
+                span(style="color: red")=errorMessages.username
+            input(type="text", name="username", value=(formValues ? formValues.username : ""), placeholder="Username", required)
+            if errorMessages && errorMessages.password
+                span(style="color: red")=errorMessages.password
+            input(type="password", name="password", placeholder="Password", required)
         input(type="submit", value="Login")
+        br
+        a(href='/users/github/start') Continue with Github
     hr
     div 
         span Don't have an account? 
-        a(href="/join") Join now &rarr;
+        a(href="/join") Create one now &rarr;
