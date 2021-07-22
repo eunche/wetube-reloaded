@@ -28,11 +28,13 @@ app.use(session({
     secret: process.env.COOKIE_SECRET,
     resave: false,
     saveUninitialized: false,
+    cookie: {
+        maxAge: 10800000,   // 3시간
+    },
     store: MongoStore.create({ mongoUrl: process.env.DB_URL }),
 }))
 app.use((req, res, next) => {
     req.sessionStore.all((error, sessions) => {
-        console.log(sessions);
         next();
     });
 });
