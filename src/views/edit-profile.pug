@@ -1,0 +1,16 @@
+extends base
+
+
+block content
+    form(method="POST")
+        input(type="text", name="name", value=user.name, placeholder="Name", required)
+        if errorMessages && errorMessages.email
+            span(style="color: red")=errorMessages.email
+        input(type="email", name="email", value=user.email, placeholder="Email", required)
+        if errorMessages && errorMessages.username
+            span(style="color: red")=errorMessages.username
+        input(type="text", name="username", value=user.username, placeholder="Username", required)
+        if errorMessages && errorMessages.password
+            span(style="color: red")=errorMessages.password
+        input(type="text", name="location", value=user.location, placeholder="Location", required)
+        input(type="submit", value="Update Profile")
