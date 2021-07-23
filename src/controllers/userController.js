@@ -4,43 +4,47 @@ import fetch from "node-fetch";
 
 
 export const getJoin = (req, res) => {
-    return res.render("join", { pageTitle: "Join" });
+    return res.render("users/join", { pageTitle: "Join" });
 }
 
 export const postJoin = async (req, res) => {
     const { name, username, email, password, password2, location } = req.body;
     let errorMessages = {};
 
-    try {
-        if (password !== password2) {
-            errorMessages['password'] = "Password confirmation does not match.";
-            throw new Error("Password confirmation does not match.");
-        }
-
-        await User.create({
-            name,
-            email,
-            username,
-            password,
-            location,
-        });
-        return res.redirect("/login");
-    } catch (error) {
-        const usernameExists = await User.exists({ username });
-        if (usernameExists) {
-            errorMessages['username'] = "This username is already exists."
-        }
-        const emailExists = await User.exists({ email });
-        if (emailExists) {
-            errorMessages['email'] = "This email is already exists."
-        }
-
-        return res.status(400).render("join", { pageTitle: "Join", errorMessages, formValues: { name, email, username, location } });
+    // 비밀번호 일치 확인
+    if (password !== password2) {
+        errorMessages['password'] = "Password confirmation does not match.";
     }
+
+    // 이미 존재하는 username인지 확인
+    const usernameExists = await User.exists({ username });
+    if (usernameExists) {
+        errorMessages['username'] = "This username is already exists."
+    }
+
+    // 이미 존재하는 email인지 확인
+    const emailExists = await User.exists({ email });
+    if (emailExists) {
+        errorMessages['email'] = "This email is already exists."
+    }
+
+    if (Object.keys(errorMessages).length > 0) {
+        return res.status(400).render("users/join", { pageTitle: "Join", errorMessages, formValues: { name, email, username, location } });
+    }
+
+    await User.create({
+        name,
+        email,
+        username,
+        password,
+        location,
+    });
+
+    return res.redirect("/login");
 }
 
 export const getEdit = (req, res) => {
-    return res.render("edit-profile", { pageTitle: "Edit Profile" });
+    return res.render("users/edit-profile", { pageTitle: "Edit Profile" });
 };
 
 export const postEdit = async (req, res) => {
@@ -59,7 +63,11 @@ export const postEdit = async (req, res) => {
 
     // email, username 둘 중 하나라도 유효성 검사에 통과하지 못하면, 프론트에 에러 반환
     if (Object.keys(errorMessages).length !== 0) {
-        return res.render("edit-profile", { pageTitle: "Edit Profile", errorMessages, formValues: { name, email, username, location } });
+        return res.status(400).render("users/edit-profile", {
+            pageTitle: "Edit Profile",
+            errorMessages,
+            formValues: { name, email, username, location, }
+        });
     }
 
     const updatedUser = await User.findByIdAndUpdate(userID,
@@ -76,7 +84,7 @@ export const postEdit = async (req, res) => {
 };
 
 export const getChangePassword = (req, res) => {
-    return res.render("password-change", { pageTitle: "Change Password" });
+    return res.render("users/password-change", { pageTitle: "Change Password" });
 }
 
 export const postChangePassword = (req, res) => {
@@ -84,40 +92,42 @@ export const postChangePassword = (req, res) => {
 }
 
 export const getLogin = (req, res) => {
-    return res.render("login", { pageTitle: "Login" });
+    return res.render("users/login", { pageTitle: "Login" });
 }
 
 export const postLogin = async (req, res) => {
     const { username, password } = req.body;
     let errorMessages = { mainErrors: [] };
 
-    try {
-        const user = await User.findOne({ username });
+    const user = await User.findOne({ username });
 
+    try {
+        // username 존재여부 확인
         if (!user) {
             errorMessages['username'] = "An account with this username does not exists.";
-            throw Error("An account with this username does not exists.");
+            throw new Error();
         }
-
+        // Github Login으로 만든 계정인지 확인
         if (user.isGithubLogin) {
             errorMessages.mainErrors.push("Please continue with Github.");
-            throw Error("Please continue with Github.");
+            throw new Error();
         }
-
+        // 비밀번호 일치여부 확인
         const isCorrectPassword = await bcrypt.compare(password, user.password);
         if (!isCorrectPassword) {
             errorMessages['password'] = "The password is wrong.";
-            throw Error("The password is wrong.");
+            throw new Error();
         }
 
+        // 유효성 검사에 다 통과하면 Session에 로그인 정보 저장
         req.session.loggedIn = true;
         req.session.user = user;
-
         return res.redirect("/");
-    } catch (error) {
-        console.log(errorMessages);
-        return res.status(400).render("login", { pageTitle: "Login", errorMessages, formValues: { username } });
+    } catch {
+        // 통과하지 못하면 Error와 입력form값 다시 반환
+        return res.status(400).render("users/login", { pageTitle: "Login", errorMessages, formValues: { username } });
     }
+
 }
 
 export const startGithubLogin = (req, res) => {
