@@ -12,3 +12,5 @@ block content
         input(type="text", name="username", value=(formValues ? formValues.username : user.username), placeholder="Username", required)
         input(type="text", name="location", value=(formValues ? formValues.location : user.location), placeholder="Location(Option)")
         input(type="submit", value="Update Profile")
+        if !user.isGithubLogin
+            a(href="change-password") Change Password &rarr;
