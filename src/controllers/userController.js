@@ -72,8 +72,6 @@ export const postEdit = async (req, res) => {
         { new: true }
     );
     req.session.user = updatedUser;
-    console.log("야호");
-    console.log(updatedUser);
     return res.redirect("/users/edit");
 };
 
