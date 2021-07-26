@@ -1,3 +1,6 @@
+import multer from "multer";
+
+
 export const localMiddleware = (req, res, next) => {
     if (req.session.loggedIn) {
         res.locals.loggedIn = true;
@@ -22,3 +25,5 @@ export const blockAnonymousUserMiddleware = (req, res, next) => {
         next();
     }
 }
+
+export const uploadFileMiddleware = multer({ dest: "uploads/" });

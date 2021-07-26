@@ -45,6 +45,7 @@ app.use(localMiddleware);
 /*
 사용 Router 모음
 */
+app.use("/uploads", express.static('uploads'));
 app.use("/", globalRouter);
 app.use("/users", userRouter);
 app.use("/videos", videoRouter);

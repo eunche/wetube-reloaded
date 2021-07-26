@@ -49,8 +49,12 @@ export const getEdit = (req, res) => {
 
 export const postEdit = async (req, res) => {
     const { name, email, username, location } = req.body;
+    const { file } = req
     const userID = req.session.user._id;
+    const avatarURL = req.session.user.avatarURL;
     let errorMessages = {};
+
+    console.log(file);
 
     // email, username 유효성 검사
     const loggedInUser = await User.findById(userID);
@@ -76,6 +80,7 @@ export const postEdit = async (req, res) => {
             email,
             username,
             location,
+            avatarURL: file ? file.path : avatarURL,
         },
         { new: true }
     );
