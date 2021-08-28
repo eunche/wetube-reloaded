@@ -251,4 +251,13 @@ export const logout = (req, res) => {
 };
 
 
-export const see = (req, res) => res.send("See");
+export const profile = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const profileUser = await User.findById(id);
+        return res.render("users/profile", { pageTitle: profileUser.name, profileUser })
+    }
+    catch {
+        return res.status(404).render("404", { pageTitle: "User not found." })
+    }
+}

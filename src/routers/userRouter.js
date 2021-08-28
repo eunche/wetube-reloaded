@@ -5,7 +5,7 @@ import {
     avatarUploadMiddleware,
 } from "../middlewares";
 import {
-    see,
+    profile,
     logout,
     getEdit,
     postEdit,
@@ -24,7 +24,7 @@ userRouter.route("/edit").all(blockAnonymousUserMiddleware).get(getEdit).post(av
 userRouter.route("/change-password").all(blockAnonymousUserMiddleware).get(getChangePassword).post(postChangePassword);
 userRouter.get("/github/start", blockLoggedInUserMiddleware, startGithubLogin);
 userRouter.get("/github/callback", blockLoggedInUserMiddleware, githubLoginCallback);
-userRouter.get("/:id(\\d+)", see);
+userRouter.get("/:id", profile);
 
 
 export default userRouter;
