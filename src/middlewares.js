@@ -26,4 +26,16 @@ export const blockAnonymousUserMiddleware = (req, res, next) => {
     }
 }
 
-export const uploadFileMiddleware = multer({ dest: "uploads/" });
+export const avatarUploadMiddleware = multer({
+    dest: "uploads/users/avatars/",
+    limits: {
+        fileSize: 3000000,
+    }
+});
+
+export const videoUploadMiddleware = multer({
+    dest: "uploads/videos/",
+    limits: {
+        fileSize: 10000000,
+    }
+});
