@@ -1,4 +1,5 @@
 import User from "../models/User";
+import Video from "../models/Video";
 import bcrypt from "bcrypt";
 import fetch from "node-fetch";
 
@@ -255,7 +256,8 @@ export const profile = async (req, res) => {
     const { id } = req.params;
     try {
         const profileUser = await User.findById(id);
-        return res.render("users/profile", { pageTitle: profileUser.name, profileUser })
+        const videos = await Video.find({ owner: profileUser._id });
+        return res.render("users/profile", { pageTitle: profileUser.name, profileUser, videos })
     }
     catch {
         return res.status(404).render("404", { pageTitle: "User not found." })
