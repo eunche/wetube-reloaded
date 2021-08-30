@@ -255,9 +255,8 @@ export const logout = (req, res) => {
 export const profile = async (req, res) => {
     const { id } = req.params;
     try {
-        const profileUser = await User.findById(id);
-        const videos = await Video.find({ owner: profileUser._id });
-        return res.render("users/profile", { pageTitle: profileUser.name, profileUser, videos })
+        const profileUser = await User.findById(id).populate("videos");
+        return res.render("users/profile", { pageTitle: profileUser.name, profileUser })
     }
     catch {
         return res.status(404).render("404", { pageTitle: "User not found." })
