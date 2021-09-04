@@ -7,8 +7,8 @@
     "url": "git+https://github.com/eunche/wetube-reloaded.git"
   },
   "scripts": {
-    "dev": "nodemon",
-    "assets": "webpack"
+    "dev:server": "nodemon",
+    "dev:assets": "webpack"
   },
   "author": "Eunchae Kim",
   "license": "MIT",
