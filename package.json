@@ -7,8 +7,8 @@
     "url": "git+https://github.com/eunche/wetube-reloaded.git"
   },
   "scripts": {
-    "dev": "nodemon --exec babel-node src/init.js",
-    "assets": "webpack --config webpack.config.js"
+    "dev": "nodemon",
+    "assets": "webpack"
   },
   "author": "Eunchae Kim",
   "license": "MIT",
@@ -35,6 +35,7 @@
     "acorn": "^8.4.1",
     "babel-loader": "^8.2.2",
     "css-loader": "^6.2.0",
+    "mini-css-extract-plugin": "^2.2.2",
     "nodemon": "^2.0.12",
     "sass": "^1.39.0",
     "sass-loader": "^12.1.0",
