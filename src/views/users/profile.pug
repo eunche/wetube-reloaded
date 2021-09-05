@@ -3,7 +3,14 @@ include ../mixins/video
 
 
 block content
-    each v in profileUser.videos
-        +video(v)
-    else 
-        li Sorry nothing found.
+    div.profile__data
+        if profileUser.avatarURL
+            img(src=profileUser.avatarURL).avatar
+        else
+            div.avatar-default.js-avatar-default #{profileUser.name}
+        h3=profileUser.name
+    div.video-grid
+        each v in profileUser.videos
+            +video(v)
+        else 
+            span.empty-message No videos found

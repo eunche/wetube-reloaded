@@ -16,9 +16,7 @@ block content
                 span(style="color: red")=errorMessages.password
             input(type="password", name="password", placeholder="Password", required)
         input(type="submit", value="Login")
-        br
-        a(href='/users/github/start') Continue with Github
-    hr
-    div 
+        include ../partials/social-login
+    div.auth-switch
         span Don't have an account? 
         a(href="/join") Create one now &rarr;
