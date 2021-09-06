@@ -12,14 +12,7 @@ const handlePlayClick = (event) => {
   } else {
     video.pause();
   }
-};
-
-const handlePause = (event) => {
-  playBtn.innerText = "Play";
-};
-
-const handlePlay = (event) => {
-  playBtn.innerText = "Pause";
+  playBtn.innerText = video.paused ? "Play" : "Pause";
 };
 
 const handleMute = (event) => {};
@@ -30,5 +23,3 @@ playBtn.addEventListener("click", handlePlayClick);
 muteBtn.addEventListener("click", handleMute);
 time.addEventListener("click", handleTime);
 volume.addEventListener("click", handleVolume);
-video.addEventListener("pause", handlePause);
-video.addEventListener("play", handlePlay);
