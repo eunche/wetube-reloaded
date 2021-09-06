@@ -2,15 +2,17 @@ extends ../base
 
 
 block content
-    video(src=`/${video.fileURL}`, controls)
+    video(src=`/${video.fileURL}`)
     div 
         button#play Play
         button#mute Mute 
+        input(type="range", value=0.5, min=0, max=1, step=0.02)#volume
         div
             span#currentTime 0:00
             span  / 
             span#totalTime 00:00
-        input(type="range", min=0, max=1, step=0.02)#volume
+        div
+            input(type="range", value=0, min=0, step=0.1)#timeline
     //-
         div
             p=video.description

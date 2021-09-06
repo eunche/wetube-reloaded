@@ -5,21 +5,31 @@ const muteBtn = document.getElementById("mute");
 const volumeRange = document.getElementById("volume");
 const currentTime = document.getElementById("currentTime");
 const totalTime = document.getElementById("totalTime");
+const timeline = document.getElementById("timeline");
 
 // 전역 변수
-let volumeValue = 0.5;
+let volumeValue = volumeRange.value;
 video.volume = volumeValue;
+
+const handleTimelineChange = (event) => {
+  const { value } = event.target;
+  video.currentTime = value;
+};
 
 const formatTime = (seconds) => {
   return new Date(seconds * 1000).toISOString().substr(15, 4);
 };
 
-const handleTimeUpdate = (event) => {
-  currentTime.innerText = formatTime(Math.floor(video.currentTime));
+const handleTimeUpdate = () => {
+  const videoCurrentTime = Math.floor(video.currentTime);
+  currentTime.innerText = formatTime(videoCurrentTime);
+  timeline.value = videoCurrentTime;
 };
 
 const handleLoadedMetadata = () => {
-  totalTime.innerText = formatTime(Math.floor(video.duration));
+  const videoDuration = Math.floor(video.duration);
+  totalTime.innerText = formatTime(videoDuration);
+  timeline.max = videoDuration;
 };
 
 const handleVolumeChange = (event) => {
@@ -32,7 +42,7 @@ const handleVolumeChange = (event) => {
   volumeValue = value;
 };
 
-const handleMuteClick = (event) => {
+const handleMuteClick = () => {
   if (video.muted) {
     video.muted = false;
   } else {
@@ -42,7 +52,7 @@ const handleMuteClick = (event) => {
   volumeRange.value = video.muted ? 0 : volumeValue;
 };
 
-const handlePlayClick = (event) => {
+const handlePlayClick = () => {
   // if 동영상이 멈춰있으면 -> 재생 하고
   // else 멈춘다
   if (video.paused) {
@@ -58,6 +68,7 @@ muteBtn.addEventListener("click", handleMuteClick);
 volumeRange.addEventListener("input", handleVolumeChange);
 video.addEventListener("loadedmetadata", handleLoadedMetadata);
 video.addEventListener("timeupdate", handleTimeUpdate);
+timeline.addEventListener("input", handleTimelineChange);
 
 if (video.readyState == 4) {
   handleLoadedMetadata();
