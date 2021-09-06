@@ -3,13 +3,24 @@ const video = document.querySelector("video");
 const playBtn = document.getElementById("play");
 const muteBtn = document.getElementById("mute");
 const volumeRange = document.getElementById("volume");
-const time = document.getElementById("time");
+const currentTime = document.getElementById("currentTime");
+const totalTime = document.getElementById("totalTime");
 
 // 전역 변수
 let volumeValue = 0.5;
 video.volume = volumeValue;
 
-const handleTime = (event) => {};
+const formatTime = (seconds) => {
+  return new Date(seconds * 1000).toISOString().substr(15, 4);
+};
+
+const handleTimeUpdate = (event) => {
+  currentTime.innerText = formatTime(Math.floor(video.currentTime));
+};
+
+const handleLoadedMetadata = () => {
+  totalTime.innerText = formatTime(Math.floor(video.duration));
+};
 
 const handleVolumeChange = (event) => {
   if (video.muted) {
@@ -45,4 +56,9 @@ const handlePlayClick = (event) => {
 playBtn.addEventListener("click", handlePlayClick);
 muteBtn.addEventListener("click", handleMuteClick);
 volumeRange.addEventListener("input", handleVolumeChange);
-time.addEventListener("click", handleTime);
+video.addEventListener("loadedmetadata", handleLoadedMetadata);
+video.addEventListener("timeupdate", handleTimeUpdate);
+
+if (video.readyState == 4) {
+  handleLoadedMetadata();
+}
