@@ -1,3 +1,6 @@
-.js-display_none {
-  display: none;
+main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(90vh - 82px);
 }

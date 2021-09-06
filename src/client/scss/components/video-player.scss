@@ -1,0 +1,49 @@
+#videoContainer {
+  position: relative;
+  height: 70%;
+  video {
+    height: 100%;
+  }
+  #videoController {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 10px;
+    background-color: rgba(white, 0.15);
+    transition: opacity 0.3s ease;
+    #timeline {
+      display: block;
+      width: 100%;
+      margin: 0;
+      margin-bottom: 10px;
+      cursor: pointer;
+    }
+    .controll-box {
+      position: relative;
+      display: flex;
+      align-items: center;
+      padding: 0 5px;
+      > *:not(:last-child) {
+        margin-right: 15px;
+      }
+      > *:not(.time-container) {
+        cursor: pointer;
+      }
+      .time-container {
+        color: #b8b8b8;
+      }
+      #fullscreen {
+        position: absolute;
+        right: 5px;
+      }
+    }
+  }
+}
+
+// Javascript 선택자
+.js-opacity1 {
+  opacity: 1;
+}
+.js-opacity0 {
+  opacity: 0;
+}
