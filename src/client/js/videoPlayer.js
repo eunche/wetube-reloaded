@@ -16,6 +16,14 @@ let volumeValue = volumeRange.value;
 video.volume = volumeValue;
 let controlsTimeout = null;
 
+const handleVideoEnded = () => {
+  const { video_id: id } = videoContainer.dataset;
+  const url = `/api/videos/${id}/view`;
+  fetch(url, {
+    method: "POST",
+  });
+};
+
 const handleVideoKeydown = (event) => {
   if (event.code === "Space") {
     playBtn.click();
@@ -114,6 +122,7 @@ videoContainer.addEventListener("mousemove", handleVideoMousemove);
 videoContainer.addEventListener("mouseleave", handleVideoMouseleave);
 video.addEventListener("click", handleVideoClick);
 document.addEventListener("keydown", handleVideoKeydown);
+video.addEventListener("ended", handleVideoEnded);
 
 if (video.readyState == 4) {
   handleLoadedMetadata();
