@@ -44,6 +44,7 @@ app.use(localMiddleware);
 */
 app.use("/uploads", express.static("uploads"));
 app.use("/static", express.static("assets"));
+app.use("/ffmpeg", express.static("node_modules/@ffmpeg/core/dist"));
 app.use("/", globalRouter);
 app.use("/users", userRouter);
 app.use("/videos", videoRouter);

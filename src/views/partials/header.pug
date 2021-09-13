@@ -17,7 +17,7 @@ header
                     a(href="/users/logout") Logout
                 if user.avatarURL
                     li
-                        img(src=user.avatarURL).header__avatar
+                        img(src=user.avatarURL).header__avatar.js-header__avatar
             else    
                 li 
                     a(href="/join").header__btn Join

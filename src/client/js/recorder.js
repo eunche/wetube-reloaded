@@ -1,3 +1,5 @@
+import { createFFmpeg, fetchFile } from "@ffmpeg/ffmpeg";
+
 const recordingToggleBtn = document.getElementById("recordingToggleBtn");
 const preview = document.getElementById("preview");
 
@@ -6,10 +8,21 @@ let stream;
 let recorder;
 let videoFile;
 
-const handleVideoDownload = () => {
+const handleVideoDownload = async () => {
+  const ffmpeg = createFFmpeg({
+    log: true,
+    corePath: `/ffmpeg/ffmpeg-core.js`,
+  });
+  await ffmpeg.load();
+  ffmpeg.FS("writeFile", "recording.webm", await fetchFile(videoFile));
+  await ffmpeg.run("-i", "recording.webm", "-r", "60", "output.mp4");
+  const mp4File = ffmpeg.FS("readFile", "output.mp4");
+  const mp4Blob = new Blob([mp4File.buffer], { type: "video/mp4" });
+  const mp4Url = URL.createObjectURL(mp4Blob);
+
   const a = document.createElement("a");
-  a.href = videoFile;
-  a.download = "wetube-video.webm";
+  a.href = mp4Url;
+  a.download = "wetube-video.mp4";
   document.body.appendChild(a);
   a.click();
 };
@@ -37,10 +50,16 @@ const handleRecordingStart = async () => {
 };
 
 const init = async () => {
-  stream = await navigator.mediaDevices.getUserMedia({
-    audio: true,
-    video: true,
-  });
+  try {
+    stream = await navigator.mediaDevices.getUserMedia({
+      audio: true,
+      video: true,
+    });
+  } catch (error) {
+    console.log(error);
+    recordingToggleBtn.parentNode.remove();
+    return;
+  }
   console.log(stream);
   preview.srcObject = stream;
   preview.play();
