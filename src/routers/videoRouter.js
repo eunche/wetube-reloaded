@@ -31,6 +31,9 @@ videoRouter
   .route("/upload")
   .all(ffmpegAuthMiddleware, blockAnonymousUserMiddleware)
   .get(getUpload)
-  .post(videoUploadMiddleware.single("video"), postUpload);
+  .post(
+    videoUploadMiddleware.fields([{ name: "video" }, { name: "thumb" }]),
+    postUpload
+  );
 
 export default videoRouter;

@@ -73,7 +73,7 @@ export const getUpload = (req, res) => {
 
 export const postUpload = async (req, res) => {
   const { _id: owner } = req.session.user;
-  const { path: fileURL } = req.file;
+  const { video, thumb } = req.files;
   const { title, description, hashtags } = req.body;
   try {
     const newVideo = await Video.create({
@@ -84,7 +84,8 @@ export const postUpload = async (req, res) => {
         views: 0,
         rating: 0,
       },
-      fileURL,
+      fileURL: video[0].path,
+      thumbURL: thumb[0].path,
       owner,
     });
     const ownerObject = await User.findById(owner);
