@@ -122,6 +122,7 @@ export const postChangePassword = async (req, res) => {
     // 일치 여부를 다 통과하면 업데이트 된 비밀번호를 저장하고, 로그아웃 진행
     loggedInUser.password = newPassword;
     await loggedInUser.save();
+    req.flash("info", "Password Changed!");
     return res.redirect("/users/logout");
   } catch {
     // 일치 여부를 통과하지 못하면 유효성 검사 에러메세지 반환

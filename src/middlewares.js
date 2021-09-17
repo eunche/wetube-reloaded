@@ -11,6 +11,7 @@ export const localMiddleware = (req, res, next) => {
 
 export const blockLoggedInUserMiddleware = (req, res, next) => {
   if (req.session.loggedIn) {
+    req.flash("error", "Not authorized");
     res.redirect("/");
   } else {
     next();
@@ -19,7 +20,17 @@ export const blockLoggedInUserMiddleware = (req, res, next) => {
 
 export const blockAnonymousUserMiddleware = (req, res, next) => {
   if (!req.session.loggedIn) {
+    req.flash("error", "Login is required.");
     res.redirect("/login");
+  } else {
+    next();
+  }
+};
+
+export const blockGithubLoginUserMiddleware = (req, res, next) => {
+  if (req.session.user.isGithubLogin) {
+    req.flash("error", "Not authorized");
+    return res.redirect("/");
   } else {
     next();
   }
