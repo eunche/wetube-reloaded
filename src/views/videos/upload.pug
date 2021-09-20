@@ -12,9 +12,9 @@ block content
             label(for="video") Video File
             input(type="file", name="video", id="video", accept="video/*", required) 
             label(for="thumb") Thumbnail File
-            input(type="file", accept="image/*", required, id="thumb", name="thumb")
-            input(type="text", name="title", placeholder="Title",maxlength=80, required)
-            input(type="text", name="description", placeholder="Description",minlength=10, required)
+            input(type="file", accept="image/*", id="thumb", name="thumb")
+            input(type="text", name="title", placeholder="Title", maxlength=80, required)
+            input(type="text", name="description", placeholder="Description", maxlength=80, required)
             input(type="text", name="hashtags", placeholder="Hashtags, seperated by comma.", required)
             input(type="submit", value=pageTitle)
 
