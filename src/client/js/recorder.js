@@ -48,7 +48,6 @@ const handleDownload = async () => {
 
   const mp4File = ffmpeg.FS("readFile", files.output);
   const thumbFile = ffmpeg.FS("readFile", files.thumb);
-  console.log("1@3!@$W@@", thumbFile);
 
   const mp4Blob = new Blob([mp4File.buffer], { type: "video/mp4" });
   const thumbBlob = new Blob([thumbFile.buffer], { type: "image/jpg" });
@@ -101,13 +100,21 @@ const handleStart = () => {
 };
 
 const init = async () => {
-  stream = await navigator.mediaDevices.getUserMedia({
-    audio: false,
-    video: {
-      width: 1024,
-      height: 576,
-    },
-  });
+  try {
+    stream = await navigator.mediaDevices.getUserMedia({
+      audio: false,
+      video: {
+        width: 1024,
+        height: 576,
+      },
+    });
+  } catch (error) {
+    const actionBtn = document.getElementById("actionBtn");
+    actionBtn.disabled = true;
+    actionBtn.classList.add("js-bg-disalbed");
+    actionBtn.innerText = "Please turn on your Camera Device!";
+    return console.log(error);
+  }
   video.srcObject = stream;
   video.play();
 };
