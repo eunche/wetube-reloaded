@@ -22,6 +22,7 @@ Middleware 모음
 const logger = morgan("dev");
 app.use(logger);
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 app.use(
   session({
     secret: process.env.COOKIE_SECRET,

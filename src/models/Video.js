@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import Comment from "./Comment";
 
 const videoSchema = new mongoose.Schema({
   title: { type: String, required: true, trim: true, maxLength: 80 },
@@ -19,6 +20,15 @@ videoSchema.static("formatHashtags", function (hashtags) {
   return (hashtags = hashtags
     .split(",")
     .map((word) => (word.startsWith("#") ? word : `#${word}`)));
+});
+
+videoSchema.pre("findOneAndDelete", async function () {
+  const { _id } = this.getFilter();
+  const video = await Video.findById(_id);
+  for (const comment of video.comments) {
+    console.log(comment);
+    await Comment.findByIdAndDelete(comment);
+  }
 });
 
 const Video = mongoose.model("Video", videoSchema);
