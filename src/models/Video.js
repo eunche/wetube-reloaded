@@ -26,7 +26,6 @@ videoSchema.pre("findOneAndDelete", async function () {
   const { _id } = this.getFilter();
   const video = await Video.findById(_id);
   for (const comment of video.comments) {
-    console.log(comment);
     await Comment.findByIdAndDelete(comment);
   }
 });

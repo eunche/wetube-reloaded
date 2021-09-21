@@ -58,8 +58,6 @@ export const postEdit = async (req, res) => {
   const avatarURL = req.session.user.avatarURL;
   let errorMessages = {};
 
-  console.log(file);
-
   // email, username 유효성 검사
   const loggedInUser = await User.findById(userID);
   if (loggedInUser.email !== email && (await User.exists({ email }))) {
@@ -243,7 +241,6 @@ export const githubLoginCallback = async (req, res) => {
       return res.redirect("/");
       // 일치하는 email 계정이 없으면 unset-password 계정으로 생성하기
     } else {
-      console.log(userData);
       const user = await User.create({
         name: userData.name,
         email,

@@ -7,8 +7,12 @@
     "url": "git+https://github.com/eunche/wetube-reloaded.git"
   },
   "scripts": {
+    "start": "node build/init.js",
+    "build": "npm run build:server && npm run build:assets",
+    "build:server": "babel src -d build --ignore 'src/client'",
+    "build:assets": "webpack --mode=production",
     "dev:server": "nodemon",
-    "dev:assets": "webpack"
+    "dev:assets": "webpack --mode=development --watch"
   },
   "author": "Eunchae Kim",
   "license": "MIT",
@@ -33,7 +37,8 @@
     "regenerator-runtime": "^0.13.9"
   },
   "devDependencies": {
-    "@babel/core": "^7.14.6",
+    "@babel/cli": "^7.15.7",
+    "@babel/core": "^7.15.5",
     "@babel/node": "^7.14.7",
     "@babel/preset-env": "^7.14.7",
     "acorn": "^8.4.1",

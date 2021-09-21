@@ -9,7 +9,6 @@ const commentSchema = new mongoose.Schema({
 });
 
 commentSchema.pre("deleteOne", async function () {
-  console.log("deleteOne!!!");
   const { _id } = this.getFilter();
   const video = await Video.findOne({ comments: _id });
   await video.comments.pull(_id);

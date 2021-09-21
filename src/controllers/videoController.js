@@ -121,7 +121,6 @@ export const search = async (req, res) => {
 };
 
 export const registerView = async (req, res) => {
-  console.log(req.params);
   const { id } = req.params;
   const video = await Video.findById(id);
   if (!video) {
