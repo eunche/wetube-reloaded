@@ -4,7 +4,10 @@ extends ../base
 block content
     div.watch-wrapper
         div#videoContainer(data-video_id=video._id)
-            video(src=`${video.fileURL}`)
+            if isHeroku
+                video(src=video.fileURL)
+            else 
+                video(src=`/${video.fileURL}`)
             div#videoController.js-opacity0
                 input(type="range", value=0, min=0, step=0.1)#timeline
                 div.controll-box

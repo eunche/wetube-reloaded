@@ -81,6 +81,9 @@ export const postUpload = async (req, res) => {
   const { _id: owner } = req.session.user;
   const { video, thumb } = req.files;
   const { title, description, hashtags } = req.body;
+
+  const isHeroku = process.env.NODE_ENV === "production";
+
   try {
     const videoObject = {
       title,
@@ -90,11 +93,11 @@ export const postUpload = async (req, res) => {
         views: 0,
         rating: 0,
       },
-      fileURL: video[0].location,
+      fileURL: isHeroku ? video[0].location : video[0].path,
       owner,
     };
     if (thumb) {
-      videoObject.thumbURL = thumb[0].location;
+      videoObject.thumbURL = isHeroku ? thumb[0].location : thumb[0].path;
     }
     const newVideo = await Video.create(videoObject);
     const ownerObject = await User.findById(owner);
