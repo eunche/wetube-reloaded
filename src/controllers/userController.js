@@ -83,7 +83,7 @@ export const postEdit = async (req, res) => {
       email,
       username,
       location,
-      avatarURL: file ? file.path : avatarURL,
+      avatarURL: file ? file.location : avatarURL,
     },
     { new: true }
   );

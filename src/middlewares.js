@@ -1,4 +1,19 @@
 import multer from "multer";
+import multerS3 from "multer-s3";
+import aws from "aws-sdk";
+
+const s3 = new aws.S3({
+  credentials: {
+    accessKeyId: process.env.AWS_ID,
+    secretAccessKey: process.env.AWS_SECRET,
+  },
+});
+
+const multerUploader = multerS3({
+  s3: s3,
+  bucket: "youtube-clone-eunchae",
+  acl: "public-read",
+});
 
 export const localMiddleware = (req, res, next) => {
   if (req.session.loggedIn) {
@@ -41,6 +56,7 @@ export const avatarUploadMiddleware = multer({
   limits: {
     fileSize: 3000000,
   },
+  storage: multerUploader,
 });
 
 export const videoUploadMiddleware = multer({
@@ -48,6 +64,7 @@ export const videoUploadMiddleware = multer({
   limits: {
     fileSize: 15000000,
   },
+  storage: multerUploader,
 });
 
 export const ffmpegAuthMiddleware = (_, res, next) => {

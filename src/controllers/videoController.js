@@ -88,11 +88,11 @@ export const postUpload = async (req, res) => {
         views: 0,
         rating: 0,
       },
-      fileURL: video[0].path,
+      fileURL: video[0].location,
       owner,
     };
     if (thumb) {
-      videoObject.thumbURL = thumb[0].path;
+      videoObject.thumbURL = thumb[0].location;
     }
     const newVideo = await Video.create(videoObject);
     const ownerObject = await User.findById(owner);
