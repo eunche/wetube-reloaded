@@ -7,6 +7,7 @@ const followBtn = document.querySelector(".js-follow-btn");
 const newVideo = document.querySelector(".js-new-video");
 
 
+
 follower.innerHTML = addComma(globalFollower);
 
 let method;
@@ -36,6 +37,24 @@ const clickFollowHandle = async (event) => {
         globalFollower += 1;
         follower.innerText = addComma(globalFollower);
         newVideo.classList.toggle("js-display-none");
+
+        const asideGroups = document.querySelectorAll(".video-group-wrapper")[1]
+
+        let avatar;
+        if(group.thumbURL){
+            avatar = `<img src="${group.thumbURL}">`
+        }
+        else{
+            avatar = `<span>${group.name[0]}</span>`
+        }
+        asideGroups.insertAdjacentHTML("beforeend", `
+            <a href="/groups/${group.name}" class="group-set">
+                <div class="img-wrapper">
+                    ${avatar}
+                </div>
+                <span>${group.name[0]}</span>
+            </a>
+        `)
     }
     else{
         followBtn.innerText = "그룹 가입"
@@ -43,6 +62,13 @@ const clickFollowHandle = async (event) => {
         globalFollower -= 1;
         follower.innerText = addComma(globalFollower);
         newVideo.classList.toggle("js-display-none");
+
+        const asideGroups = document.querySelectorAll(".video-group-wrapper")[1].querySelectorAll(".group-set");
+        for (const g of asideGroups) {
+            if(g.querySelector("span").innerText === group.name){
+                g.remove();
+            }
+        }
     }
 }
 
