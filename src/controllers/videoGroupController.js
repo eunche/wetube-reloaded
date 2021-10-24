@@ -37,3 +37,17 @@ export const postCreate = async (req, res) => {
         });
       }
 }
+
+export const getSearch = async (req, res) => {
+    const { keyword } = req.query;
+    let groups = [];
+    if (keyword) {
+        groups = await VideoGroup.find({
+          name: {
+            $regex: keyword,
+            $options: "i",
+          },
+        });
+      }
+    return res.render("videoGroups/search", { pageTitle: "Group Search", groups });
+}
