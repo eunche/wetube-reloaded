@@ -1,0 +1,11 @@
+mixin video-group-card(group)
+    a(href=`/groups/${group.name}`).group-card
+        div.img-wrapper
+            if group.thumbURL
+                img(src=`/${group.thumbURL}`)
+            else
+                span #{group.name[0]}
+        span.group-card__name=group.name
+        div.follower-wrapper
+            img(src="/static/img/videoGroups/group.png")
+            span.js-follower=group.follower.length

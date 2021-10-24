@@ -48,11 +48,12 @@ app.use(localMiddleware);
 */
 app.use("/uploads", express.static("uploads"));
 app.use("/static", express.static("assets"));
+app.use("/static/img", express.static("src/client/img"));
 app.use("/ffmpeg", express.static("node_modules/@ffmpeg/core/dist"));
 app.use("/", globalRouter);
 app.use("/users", userRouter);
 app.use("/videos", videoRouter);
-app.use("/videos/group", videoGroupRouter);
+app.use("/groups", videoGroupRouter);
 app.use("/api", apiRouter);
 
 export default app;

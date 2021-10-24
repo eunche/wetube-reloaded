@@ -1,0 +1,53 @@
+include ../mixins/aside__video-group
+
+aside
+    header
+        a(href="/").header__logo-wrapper
+            img(src="/static/img/global/video-camera.png")
+            span 비디오 그룹
+        if user
+            a(href=`/users/${user._id}`)
+                if isHeroku
+                    img(src=user.avatarURL).header__avatar
+                else 
+                    img(src=`${user.avatarURL}`).header__avatar
+        else
+            a(href="/login").join-btn.js-join-btn Login
+    
+    form(action="/groups/search", method="get").search-wrapper
+        div.search-set
+            img(src="/static/img/global/loupe.png")
+            input(type="search", name="group_keyword", placeholder="그룹 검색").input-base
+    
+    if todaysGroups
+        +aside__video-group(todaysGroups, "오늘의 그룹")
+
+    if user
+        +aside__video-group(user.videoGroups, "내 그룹")
+
+    //- nav 
+    //-     ul 
+    //-         li
+    //-             a(href="/search")
+    //-                 i.fas.fa-search
+    //-         if loggedIn 
+    //-             li 
+    //-                 a(href="/videos/upload") Upload Video
+    //-             li 
+    //-                 a(href=`/users/${user._id}`) My Profile
+    //-             li 
+    //-                 a(href="/users/edit") Edit Profile
+    //-             li 
+    //-                 a(href="/users/logout") Logout
+    //-             if user.avatarURL
+    //-                 li
+    //-                     if isHeroku
+    //-                         img(src=user.avatarURL).header__avatar.js-header__avatar
+    //-                     else 
+    //-                         img(src=`/${user.avatarURL}`).header__avatar.js-header__avatar
+                        
+    //-         else    
+    //-             li 
+    //-                 a(href="/join").header__btn Join
+    //-             li 
+    //-                 a(href="/login") Login

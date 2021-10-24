@@ -7,6 +7,8 @@ const JS_BASE_PATH = "/src/client/js/";
 module.exports = {
   entry: {
     main: JS_BASE_PATH + "main.js",
+    home: JS_BASE_PATH + "home.js",
+    groupDetail: JS_BASE_PATH + "groupDetail.js",
     getFirstAlphabet: JS_BASE_PATH + "getFirstAlphabet.js",
     videoPlayer: JS_BASE_PATH + "videoPlayer.js",
     recorder: JS_BASE_PATH + "recorder.js",

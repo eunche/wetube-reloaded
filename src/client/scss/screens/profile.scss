@@ -1,3 +1,8 @@
+main{
+  display: flex;
+  flex-direction: column;
+}
+
 .profile__data {
   display: flex;
   flex-direction: column;
@@ -26,5 +31,21 @@
     background-color: rgb(255, 133, 133);
     color: white;
     margin-bottom: 10px;
+  }
+  .button-wrapper{
+    display: flex;
+    justify-content: space-between;
+    width: 190px;
+    .profile__edit-btn{
+      display: inline-block;
+      margin-top: 10px;
+      padding: 8px 12px;
+      background-color: #005fc2;
+      border-radius: 10px;
+      color: white;
+      &:last-child{
+        background-color: #e0e0e0;
+      }
+    }
   }
 }

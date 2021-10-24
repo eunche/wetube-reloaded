@@ -1,0 +1,13 @@
+mixin aside__video-group(groups, title)
+    div.video-group-wrapper
+        span=title
+        if title == "내 그룹"
+            a.plus-btn(href="/groups/create") +
+        each group in groups
+            a(href=`/groups/${group.name}`).group-set
+                div.img-wrapper
+                    if group.thumbURL
+                        img(src=`/${group.thumbURL}`)
+                    else
+                        span #{group.name[0]}
+                span=group.name

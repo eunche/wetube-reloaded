@@ -1,0 +1,39 @@
+extends ../base
+include ../mixins/video
+
+
+block content
+    div.video-group__profile
+        div.avatar-wrapper
+            if group.thumbURL
+                img(src=`/${group.thumbURL}`)
+            else
+                span #{group.name[0]}
+        div.description-wrapper
+            span.group-name=group.name
+            span.follower 그룹원 
+                span.js-follower #{group.follower.length}
+                span 명
+        button.follow-btn.js-follow-btn
+            if group.follower.find(f => String(f) === String(user._id))
+                span 그룹 탈퇴
+            else
+                span 그룹 가입
+    
+    div.popular-groups.new
+        h1.inline-block 관련 동영상
+        if group.follower.find(f => String(f) === String(user._id))
+            a(href=`/videos/group/${group.name}/upload`).new-video 동영상 추가
+        div.video-grid
+            each video in group.videos 
+                +video(video)
+            else 
+                div.empty-message No videos found
+
+
+
+block scripts
+    script(type="text/javascript").
+        const user = !{JSON.stringify(user)};
+        const group = !{JSON.stringify(group)};
+    script(src="/static/js/groupDetail.js") 

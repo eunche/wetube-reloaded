@@ -15,6 +15,7 @@ export const postCreate = async (req, res) => {
     try{
         const videoGroupObject = {
             name,
+            followerCount: 1,
         }
 
         if (thumb) {
@@ -31,7 +32,7 @@ export const postCreate = async (req, res) => {
         req.session.user = loggedInUser;
 
 
-        return res.redirect(`/videos/group/${newVideoGroup.name}`)
+        return res.redirect(`/groups/${newVideoGroup.name}`)
     } catch (error) {
         console.log(error);
         return res.status(400).render("videoGroups/create", {
@@ -42,7 +43,7 @@ export const postCreate = async (req, res) => {
 }
 
 export const getSearch = async (req, res) => {
-    const { keyword } = req.query;
+    const { group_keyword: keyword } = req.query;
     let groups = [];
     if (keyword) {
         groups = await VideoGroup.find({
@@ -53,4 +54,54 @@ export const getSearch = async (req, res) => {
         });
       }
     return res.render("videoGroups/search", { pageTitle: "Group Search", groups });
+}
+
+export const getDetail = async (req, res) => {
+  const { groupName } = req.params;
+  const group = await VideoGroup.findOne({name: groupName }).populate({
+    path: "videos",
+    populate: {
+      path: "owner",
+    },
+  });
+
+  return res.render("videoGroups/detail", { pageTitle: `${groupName} 그룹`, group });
+}
+
+export const postFollow = async (req, res) => {
+  const { groupId } = req.body;
+  const { _id:userId } = req.session.user;
+
+  const user = await User.findById(userId);
+
+  console.log(user);
+  user.videoGroups.push({ _id: groupId });
+  user.save();
+  req.session.user = user;
+
+  const group = await VideoGroup.findById(groupId);
+  group.follower.push({ _id: user._id });
+  group.followerCount += 1;
+  group.save();
+
+  return res.sendStatus(200);
+}
+
+export const deleteFollow = async (req, res) => {
+  const { groupId } = req.body;
+  const { _id:userId } = req.session.user;
+
+  const user = await User.findById(userId);
+
+  console.log(user);
+  user.videoGroups.pull(groupId);
+  user.save();
+  req.session.user = user;
+
+  const group = await VideoGroup.findById(groupId);
+  group.follower.pull(user._id);
+  group.followerCount -= 1;
+  group.save();
+
+  return res.sendStatus(200);
 }

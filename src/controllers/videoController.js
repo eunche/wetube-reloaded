@@ -4,10 +4,11 @@ import User from "../models/User";
 import Comment from "../models/Comment";
 
 export const home = async (req, res) => {
+  const popularGroups = await VideoGroup.find({}).sort({followerCount: -1}).limit(4);
   const videos = await Video.find({})
     .populate("owner")
     .sort({ createdAt: "desc" });
-  return res.render("home", { pageTitle: "Home", videos });
+  return res.render("home", { pageTitle: "Home", videos, popularGroups });
 };
 
 export const watch = async (req, res) => {

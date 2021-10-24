@@ -8,7 +8,7 @@ const userSchema = new mongoose.Schema({
   password: { type: String },
   location: { type: String },
   isGithubLogin: { type: Boolean, default: false },
-  avatarURL: { type: String },
+  avatarURL: { type: String, default: "/static/img/global/profile-user.png" },
   videos: [{ type: mongoose.Schema.Types.ObjectId, ref: "Video" }],
   comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
   videoGroups: [{ type: mongoose.Schema.Types.ObjectId, ref: "VideoGroup" }],

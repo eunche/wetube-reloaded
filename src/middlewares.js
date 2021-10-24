@@ -25,13 +25,18 @@ const s3VideoUploader = multerS3({
   acl: "public-read",
 });
 
-export const localMiddleware = (req, res, next) => {
+export const localMiddleware = async (req, res, next) => {
   if (req.session.loggedIn) {
     res.locals.loggedIn = true;
-    res.locals.user = req.session.user;
+    res.locals.user = await User.findById(req.session.user._id).populate("videoGroups");
   }
   res.locals.siteName = "Wetube";
   res.locals.isHeroku = isHeroku;
+
+  const todaysGroups = await VideoGroup.aggregate([
+    { $sample: { size: 3 } },
+  ]);
+  res.locals.todaysGroups = todaysGroups;
   next();
 };
 
@@ -75,7 +80,8 @@ export const blockNotGroupUserMiddleware = async (req, res, next) => {
   }
 
   try{
-    const isInGroup = user.videoGroups.find(e => e === String(videoGroup._id));
+    const isInGroup = user.videoGroups.find(e => String(e._id) === String(videoGroup._id));
+    console.log(user.videoGroups);
     if(!isInGroup){
       throw new Error();
     }

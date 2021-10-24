@@ -1,9 +1,21 @@
 extends base.pug
 include mixins/video
+include mixins/video-group-card
 
 block content
+    div.popular-groups
+        h1 인기 그룹
+        div.group-card-wrapper
+            each group in popularGroups
+                +video-group-card(group)
+
+    div.popular-groups.new
+        h1 최신 비디오
         div.video-grid
             each video in videos 
                 +video(video)
             else 
                 span.empty-message No videos found
+
+block scripts
+    script(src="/static/js/home.js") 

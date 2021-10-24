@@ -90,6 +90,7 @@ export const postEdit = async (req, res) => {
     { new: true }
   );
   req.session.user = updatedUser;
+  req.flash("info", "Profile Changed!");
   return res.redirect("/users/edit");
 };
 

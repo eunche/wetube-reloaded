@@ -5,7 +5,8 @@ const videoGroupSchema = new mongoose.Schema({
     videos: [{ type: mongoose.Schema.Types.ObjectId, ref: "Video" }],
     createdAt: { type: Date, default: Date.now, required: true },
     thumbURL: { type: String },
-    follower: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+    follower: [{ type: mongoose.Schema.Types.ObjectId, ref: "User"}],
+    followerCount: { type: Number, default: 0 }
 });
 
 const VideoGroup = mongoose.model("VideoGroup", videoGroupSchema);
