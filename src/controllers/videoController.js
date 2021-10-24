@@ -1,4 +1,5 @@
 import Video from "../models/Video";
+import VideoGroup from "../models/VideoGroup";
 import User from "../models/User";
 import Comment from "../models/Comment";
 
@@ -80,7 +81,10 @@ export const getUpload = (req, res) => {
 export const postUpload = async (req, res) => {
   const { _id: owner } = req.session.user;
   const { video, thumb } = req.files;
+  const { groupName } = req.params;
   const { title, description, hashtags } = req.body;
+
+  const videoGroup = await VideoGroup.findOne({ name: groupName });
 
   const isHeroku = process.env.NODE_ENV === "production";
 
@@ -95,14 +99,24 @@ export const postUpload = async (req, res) => {
       },
       fileURL: isHeroku ? video[0].location : video[0].path,
       owner,
+      videoGroup,
     };
     if (thumb) {
       videoObject.thumbURL = isHeroku ? thumb[0].location : thumb[0].path;
     }
+
+    
     const newVideo = await Video.create(videoObject);
+
+    videoGroup.videos.push(newVideo);
+    videoGroup.save();
+    
     const ownerObject = await User.findById(owner);
     ownerObject.videos.push(newVideo);
     ownerObject.save();
+
+    req.session.user = ownerObject;
+    
     return res.redirect("/");
   } catch (error) {
     return res.status(400).render("videos/upload", {

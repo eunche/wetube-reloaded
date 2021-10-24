@@ -1,5 +1,5 @@
 import express from "express";
-import { blockAnonymousUserMiddleware, ffmpegAuthMiddleware, videoUploadMiddleware } from "../middlewares"
+import { blockAnonymousUserMiddleware, ffmpegAuthMiddleware, GroupImageUploadMiddleware } from "../middlewares"
 import { getCreate, postCreate } from "../controllers/videoGroupController"
 
 const videoGroupRouter = express.Router();
@@ -9,7 +9,7 @@ videoGroupRouter
     .all(ffmpegAuthMiddleware, blockAnonymousUserMiddleware)
     .get(getCreate)
     .post(
-        videoUploadMiddleware.single("thumb"),
+        GroupImageUploadMiddleware.single("thumb"),
         postCreate
     );
 

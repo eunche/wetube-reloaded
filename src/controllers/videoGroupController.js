@@ -25,6 +25,8 @@ export const postCreate = async (req, res) => {
         newVideoGroup.save();
         loggedInUser.videoGroups.push(newVideoGroup);
         loggedInUser.save();
+        req.session.user = loggedInUser;
+
 
         return res.redirect(`/videos/group/${newVideoGroup.name}`)
     } catch (error) {

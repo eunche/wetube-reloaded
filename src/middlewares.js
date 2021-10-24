@@ -1,6 +1,8 @@
 import multer from "multer";
 import multerS3 from "multer-s3";
 import aws from "aws-sdk";
+import User from "./models/User";
+import VideoGroup from "./models/VideoGroup";
 
 const s3 = new aws.S3({
   credentials: {
@@ -60,6 +62,31 @@ export const blockGithubLoginUserMiddleware = (req, res, next) => {
   }
 };
 
+export const blockNotGroupUserMiddleware = async (req, res, next) => {
+  const { user } = req.session;
+  let videoGroup;
+  try{
+    videoGroup = await VideoGroup.findOne({ name: req.params.groupName });
+    if(!videoGroup){
+      throw new Error();
+    }
+  } catch{
+    return res.render("404", {pageTitle:"Group Not Found"});
+  }
+
+  try{
+    const isInGroup = user.videoGroups.find(e => e === String(videoGroup._id));
+    if(!isInGroup){
+      throw new Error();
+    }
+    next();
+  }catch{
+    req.flash("error", "Please Join The Group.");
+    return res.redirect("/");
+  }
+  
+}
+
 export const avatarUploadMiddleware = multer({
   dest: "uploads/users/avatars/",
   limits: {
@@ -70,6 +97,14 @@ export const avatarUploadMiddleware = multer({
 
 export const videoUploadMiddleware = multer({
   dest: "uploads/videos/",
+  limits: {
+    fileSize: 15000000,
+  },
+  storage: isHeroku ? s3VideoUploader : undefined,
+});
+
+export const GroupImageUploadMiddleware = multer({
+  dest: "uploads/group_image/",
   limits: {
     fileSize: 15000000,
   },
