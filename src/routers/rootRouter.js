@@ -16,7 +16,7 @@ rootRouter.route("/login")
     .all(blockLoggedInUserMiddleware)
     .get(getLogin)
     .post(postLogin);
-rootRouter.get("/search", search);
+rootRouter.get("/search/:groupName", search);
 
 
 export default rootRouter;

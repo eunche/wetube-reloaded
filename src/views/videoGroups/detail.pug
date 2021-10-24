@@ -24,6 +24,10 @@ block content
         h1.inline-block 관련 동영상
         if group.follower.find(f => String(f) === String(user._id))
             a(href=`/videos/group/${group.name}/upload`).new-video 동영상 추가
+        form(action=`/search/${group.name}/`, method="get").search-wrapper
+            div.search-set
+                img(src="/static/img/global/loupe.png")
+                input(type="search", name="video_keyword", placeholder="동영상 검색").input-base
         div.video-grid
             each video in group.videos 
                 +video(video)

@@ -128,7 +128,9 @@ export const postUpload = async (req, res) => {
 };
 
 export const search = async (req, res) => {
-  const { keyword } = req.query;
+  const { video_keyword:keyword } = req.query;
+  const { groupName } = req.params;
+  const group = await VideoGroup.findOne({name: groupName});
   let videos = [];
   if (keyword) {
     videos = await Video.find({
@@ -136,6 +138,7 @@ export const search = async (req, res) => {
         $regex: keyword,
         $options: "i",
       },
+      videoGroup: group
     });
   }
   return res.render("videos/search", { pageTitle: "Search", videos });
