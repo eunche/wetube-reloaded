@@ -52,7 +52,7 @@ const clickFollowHandle = async (event) => {
                 <div class="img-wrapper">
                     ${avatar}
                 </div>
-                <span>${group.name[0]}</span>
+                <span>${group.name}</span>
             </a>
         `)
     }
