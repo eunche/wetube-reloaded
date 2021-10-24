@@ -65,7 +65,7 @@ const clickFollowHandle = async (event) => {
 
         const asideGroups = document.querySelectorAll(".video-group-wrapper")[1].querySelectorAll(".group-set");
         for (const g of asideGroups) {
-            if(g.querySelector("span").innerText === group.name){
+            if(g.querySelectorAll("span")[g.querySelectorAll("span").length-1].innerText === group.name){
                 g.remove();
             }
         }
