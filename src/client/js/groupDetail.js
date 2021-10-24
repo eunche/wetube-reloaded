@@ -4,12 +4,15 @@ let globalFollower = group.follower.length;
 
 const follower = document.querySelector(".js-follower");
 const followBtn = document.querySelector(".js-follow-btn");
+const newVideo = document.querySelector(".js-new-video");
+
 
 follower.innerHTML = addComma(globalFollower);
 
 let method;
 if(group.follower.find(f => String(f) === String(user._id))){
     method = "DELETE";
+    newVideo.classList.remove("js-display-none");
 }
 else{
     method = "POST";
@@ -32,12 +35,14 @@ const clickFollowHandle = async (event) => {
         method = "DELETE";
         globalFollower += 1;
         follower.innerText = addComma(globalFollower);
+        newVideo.classList.toggle("js-display-none");
     }
     else{
         followBtn.innerText = "그룹 가입"
         method = "POST";
         globalFollower -= 1;
         follower.innerText = addComma(globalFollower);
+        newVideo.classList.toggle("js-display-none");
     }
 }
 

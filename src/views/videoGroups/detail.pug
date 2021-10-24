@@ -22,8 +22,7 @@ block content
     
     div.popular-groups.new
         h1.inline-block 관련 동영상
-        if group.follower.find(f => String(f) === String(user._id))
-            a(href=`/videos/group/${group.name}/upload`).new-video 동영상 추가
+        a(href=`/videos/group/${group.name}/upload`).new-video.js-new-video.js-display-none 동영상 추가
         form(action=`/search/${group.name}/`, method="get").search-wrapper
             div.search-set
                 img(src="/static/img/global/loupe.png")
