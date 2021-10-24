@@ -11,6 +11,7 @@ const userSchema = new mongoose.Schema({
   avatarURL: { type: String },
   videos: [{ type: mongoose.Schema.Types.ObjectId, ref: "Video" }],
   comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
+  videoGroups: [{ type: mongoose.Schema.Types.ObjectId, ref: "VideoGroup" }],
 });
 
 userSchema.pre("save", async function () {

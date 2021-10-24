@@ -1,0 +1,16 @@
+extends ../base
+
+
+block content
+    div.upload__container
+        if errorMessage
+            span=errorMessage
+        form(method="POST", enctype="multipart/form-data")
+            label(for="thumb") 대표 이미지(선택)
+            input(type="file", accept="image/*", id="thumb", name="thumb")
+            input(type="text", name="name", placeholder="Group Name", maxlength=80, required)
+            input(type="submit", value=pageTitle)
+
+
+
+block scripts

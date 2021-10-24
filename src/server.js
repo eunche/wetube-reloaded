@@ -7,6 +7,7 @@ import { localMiddleware } from "./middlewares";
 import globalRouter from "./routers/rootRouter";
 import userRouter from "./routers/userRouter";
 import videoRouter from "./routers/videoRouter";
+import videoGroupRouter from "./routers/videoGroupRouter";
 import apiRouter from "./routers/apiRouter";
 
 /*
@@ -51,6 +52,7 @@ app.use("/ffmpeg", express.static("node_modules/@ffmpeg/core/dist"));
 app.use("/", globalRouter);
 app.use("/users", userRouter);
 app.use("/videos", videoRouter);
+app.use("/videos/group", videoGroupRouter);
 app.use("/api", apiRouter);
 
 export default app;
