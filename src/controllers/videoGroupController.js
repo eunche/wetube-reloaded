@@ -15,7 +15,10 @@ export const postCreate = async (req, res) => {
     try{
         const videoGroupObject = {
             name,
-            thumbURL: isHeroku ? thumb.location : thumb.path, 
+        }
+
+        if (thumb) {
+            videoGroupObject.thumbURL = isHeroku ? thumb.location : thumb.path;
         }
         
         const newVideoGroup = await VideoGroup.create(videoGroupObject);
