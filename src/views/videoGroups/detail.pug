@@ -6,7 +6,7 @@ block content
     div.video-group__profile
         div.avatar-wrapper
             if group.thumbURL
-                img(src=`/${group.thumbURL}`)
+                img(src=`${group.thumbURL}`)
             else
                 span #{group.name[0]}
         div.description-wrapper

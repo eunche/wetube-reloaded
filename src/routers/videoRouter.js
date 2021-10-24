@@ -4,7 +4,6 @@ import {
   blockAnonymousUserMiddleware,
   videoUploadMiddleware,
   ffmpegAuthMiddleware,
-  blockNotGroupUserMiddleware,
 } from "../middlewares";
 import {
   watch,
@@ -30,7 +29,7 @@ videoRouter.get(
 );
 videoRouter
   .route("/group/:groupName/upload")
-  .all(ffmpegAuthMiddleware, blockAnonymousUserMiddleware,blockNotGroupUserMiddleware)
+  .all(ffmpegAuthMiddleware, blockAnonymousUserMiddleware)
   .get(getUpload)
   .post(
     videoUploadMiddleware.fields([{ name: "video" }, { name: "thumb" }]),
