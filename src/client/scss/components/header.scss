@@ -3,6 +3,7 @@ header {
   justify-content: space-between;
   align-items: center;
   padding: 20px 50px;
+  background-color: #e6e6e6;
   .header__logo {
     color: $red;
     font-size: 38px;
@@ -26,7 +27,7 @@ header {
   }
   .header__btn {
     background-color: white;
-    color: $bg;
+    color: black;
     padding: 5px 10px;
     border-radius: 5px;
   }

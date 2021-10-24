@@ -28,9 +28,13 @@ a {
 }
 
 body {
-  font-family: "Courier New", Courier, monospace;
+  font-family: 'Noto Sans KR', sans-serif;
   background-color: $bg;
-  color: white;
+  color: black;
+}
+
+main{
+  padding-top: 20px;
 }
 
 @keyframes goAway {
