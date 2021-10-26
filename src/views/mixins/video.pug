@@ -1,5 +1,10 @@
-mixin video(video)
+mixin video(video,group)
     a(href=`/videos/${video.id}`).video-mixin
+        div.img-wrapper
+            if group.thumbURL
+                img(src=`${group.thumbURL}`)
+            else
+                span #{group.name[0]}
         div.video-mixin__thumb(style=`background-image:url(${video.thumbURL});background-size:cover;background-position:center;`)
         div.video-mixin__data
             span.video-mixin__title=video.title

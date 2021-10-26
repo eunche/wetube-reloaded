@@ -30,7 +30,7 @@ block content
                 input(type="search", name="video_keyword", placeholder="동영상 검색").input-base
         div.video-grid
             each video in group.videos 
-                +video(video)
+                +video(video, group)
             else 
                 div.empty-message No videos found
 

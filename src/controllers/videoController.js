@@ -7,6 +7,7 @@ export const home = async (req, res) => {
   const popularGroups = await VideoGroup.find({}).sort({followerCount: -1}).limit(4);
   const videos = await Video.find({})
     .populate("owner")
+    .populate("videoGroup")
     .sort({ createdAt: "desc" });
   return res.render("home", { pageTitle: "Home", videos, popularGroups });
 };
@@ -150,7 +151,7 @@ export const search = async (req, res) => {
       videoGroup: group
     });
   }
-  return res.render("videos/search", { pageTitle: "Search", videos });
+  return res.render("videos/search", { pageTitle: "Search", videos, group });
 };
 
 export const registerView = async (req, res) => {

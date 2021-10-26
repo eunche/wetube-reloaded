@@ -13,7 +13,7 @@ block content
         h1 최신 비디오
         div.video-grid
             each video in videos 
-                +video(video)
+                +video(video, video.videoGroup)
             else 
                 span.empty-message No videos found
 
