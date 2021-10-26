@@ -276,6 +276,7 @@ export const profile = async (req, res) => {
         path: "owner",
       },
     });
+    console.log(profileUser);
     return res.render("users/profile", {
       pageTitle: profileUser.name,
       profileUser,

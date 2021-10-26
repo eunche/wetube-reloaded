@@ -30,7 +30,7 @@ export const localMiddleware = async (req, res, next) => {
     res.locals.loggedIn = true;
     res.locals.user = await User.findById(req.session.user._id).populate("videoGroups");
   }
-  res.locals.siteName = "Wetube";
+  res.locals.siteName = "비디오 그룹";
   res.locals.isHeroku = isHeroku;
 
   const todaysGroups = await VideoGroup.aggregate([
@@ -81,7 +81,6 @@ export const blockNotGroupUserMiddleware = async (req, res, next) => {
 
   try{
     const isInGroup = user.videoGroups.find(e => String(e._id) === String(videoGroup._id));
-    console.log(user.videoGroups);
     if(!isInGroup){
       throw new Error();
     }

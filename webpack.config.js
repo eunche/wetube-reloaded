@@ -15,6 +15,7 @@ module.exports = {
     commentSection: JS_BASE_PATH + "commentSection.js",
     watch: JS_BASE_PATH + "watch.js",
     watchModule: JS_BASE_PATH + "watchModule.js",
+    followingToggle: JS_BASE_PATH + "followingToggle.js",
   },
   plugins: [
     new MiniCssExtractPlugin({

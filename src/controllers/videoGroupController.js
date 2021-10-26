@@ -34,7 +34,6 @@ export const postCreate = async (req, res) => {
 
         return res.redirect(`/groups/${newVideoGroup.name}`)
     } catch (error) {
-        console.log(error);
         return res.status(400).render("videoGroups/create", {
           pageTitle: "Create Group",
           errorMessage: error._message,
@@ -74,7 +73,6 @@ export const postFollow = async (req, res) => {
 
   const user = await User.findById(userId);
 
-  console.log(user);
   user.videoGroups.push({ _id: groupId });
   user.save();
   req.session.user = user;
@@ -93,7 +91,6 @@ export const deleteFollow = async (req, res) => {
 
   const user = await User.findById(userId);
 
-  console.log(user);
   user.videoGroups.pull(groupId);
   user.save();
   req.session.user = user;

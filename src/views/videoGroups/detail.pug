@@ -14,11 +14,12 @@ block content
             span.follower 그룹원 
                 span.js-follower #{group.follower.length}
                 span 명
-        button.follow-btn.js-follow-btn
-            if group.follower.find(f => String(f) === String(user._id))
-                span 그룹 탈퇴
-            else
-                span 그룹 가입
+            if user
+                button.follow-btn.js-follow-btn
+                    if group.follower.find(f => String(f) === String(user._id))
+                        span 그룹 탈퇴
+                    else
+                        span 그룹 가입
     
     div.popular-groups.new
         h1.inline-block 관련 동영상
@@ -36,7 +37,12 @@ block content
 
 
 block scripts
+    if user
+        script(type="text/javascript").
+            const user = !{JSON.stringify(user)};
+    else
+        script(type="text/javascript").
+            const user = null;
     script(type="text/javascript").
-        const user = !{JSON.stringify(user)};
         const group = !{JSON.stringify(group)};
     script(src="/static/js/groupDetail.js") 

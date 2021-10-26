@@ -2,27 +2,57 @@ import { handleDeleteComment } from "./watchModule";
 
 const videoContainer = document.getElementById("videoContainer");
 const form = document.getElementById("commentForm");
-const textarea = form.querySelector("textarea");
+const commentTextarea = form.querySelector("#commentTextarea");
 const btn = form.querySelector("button");
 
-const addComment = (text, id) => {
-  const videoComments = document.querySelector(".video__comments ul");
+const addComment = (id, text, createdAt) => {
+  const videoComments = document.querySelector(".video__comments");
+  let date = new Date(createdAt.slice(0,10));
+  let hours = Number(createdAt.slice(11,13)) + 9
+  let times = createdAt.slice(13,16);
+  if(hours >= 24){
+    hours -= 24;
+    hours = "00" + hours;
+    hours = hours.slice(-2);
+    date.setDate(date.getDate() + 1);
+  }
+
+  let avatarHTML;
+  if(user.avatarURL === "/static/img/global/profile-user.png"){
+    avatarHTML = `
+      <div class="text-avatar">
+        <span>${user.username[0]}</span>
+      </div>
+    `
+  }
+  else{
+    avatarHTML = `<img src="${user.avatarURL}">`;
+  }
+  const resultCreatedAt = `${(date.getFullYear())}-${("0"+(date.getMonth()+1)).slice(-2)}-${date.getDate()} - ${hours}${times}`
   const newComment = `
-    <li class="video__comment" data-id="${id}">
-        <i class="fas fa-comment"></i>
-        <span> ${text} </span>
-        <span class="js-delete-btn">❌</span>
+    <li class="comment" data-id="${id}">
+      <div class="contents">
+        <a class="avatar" href="/users/${user._id}">
+          ${avatarHTML}
+        </a>
+        <a class="contents__username" href="/users/${user._id}">eunche</a>
+        <span class="contents__comment-text">${text}</span>
+        <div class="related-btns"></div>
+      </div>
+      <div class="createdAt">
+        <span>${resultCreatedAt}</span>
+      </div>
     </li>
   `;
   videoComments.insertAdjacentHTML("afterbegin", newComment);
-  document
-    .querySelector(".js-delete-btn")
-    .addEventListener("click", handleDeleteComment);
+  // document
+  //   .querySelector(".js-delete-btn")
+  //   .addEventListener("click", handleDeleteComment);
 };
 
 const handleSubmit = async (event) => {
   event.preventDefault();
-  const text = textarea.value;
+  const text = commentTextarea.value;
   const videoId = videoContainer.dataset.video_id;
 
   if (text === "") {
@@ -38,9 +68,9 @@ const handleSubmit = async (event) => {
   });
 
   if (response.status === 201) {
-    textarea.value = "";
-    const { newCommentId } = await response.json();
-    addComment(text, newCommentId);
+    commentTextarea.value = "";
+    const { _id:id, text, createdAt } = await response.json();
+    addComment(id, text, createdAt);
   }
 };
 

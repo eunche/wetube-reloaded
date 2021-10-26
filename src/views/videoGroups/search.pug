@@ -1,9 +1,11 @@
 extends ../base
-
+include ../mixins/video-group-card
 
 block content
     if groups.length != 0
-        each group in groups 
-            div=group
+        h1.group-search__title 검색 결과
+        div.group-search__group-card-wrapper
+            each group in groups 
+                +video-group-card(group)
     else
         span 검색 결과가 없습니다.

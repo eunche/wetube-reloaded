@@ -19,36 +19,94 @@ block content
                         span /
                         span#totalTime 00:00
                     i#fullscreen.fas.fa-expand
-    div
-        p=video.description
-        small=video.createdAt
-        br
-        br
-        span Uploaded by 
-            a(href=`/users/${video.owner._id}`)=video.owner.name 
+
+    div.video-info-wrapper
+        ul.video-info__hashtags
+            each hashtag in video.hashtags
+                li #{hashtag}
+        h3.video-info__title=video.title
+        div.video-info__views-set
+            span 조회수 
+            span.views-num=video.meta.views
+            span 회 - 
+            span.created-at #{video.createdAt.getFullYear()}. #{(video.createdAt.getMonth()+1)}. #{video.createdAt.getDate()}
+        a(href=`/users/${video.owner._id}`).video-info__owner-set
+            if video.owner.avatarURL != "/static/img/global/profile-user.png"
+                if isHeroku
+                    img(src=video.owner.avatarURL)
+                else 
+                    img(src=`${video.owner.avatarURL}`)
+            else
+                div.text-avatar
+                    span #{video.owner.username[0]}
+            span=video.owner.username
+        p.video-info__description #{video.description}
+    
+    div.video-group__profile.watch-video-group
+        a(href=`/groups/${video.videoGroup.name}`).avatar-wrapper
+            if video.videoGroup.thumbURL
+                img(src=`${video.videoGroup.thumbURL}`)
+            else
+                span #{video.videoGroup.name[0]}
+        a(href=`/groups/${video.videoGroup.name}`).description-wrapper
+            span.group-name=video.videoGroup.name
+            span.follower 그룹원 
+                span.js-follower #{video.videoGroup.follower.length}
+                span 명
+        if user
+            button.follow-btn.js-follow-btn
+                if video.videoGroup.follower.find(f => String(f) === String(user._id))
+                    span 그룹 탈퇴
+                else
+                    span 그룹 가입
+
+
+
     if String(user && user._id) === String(video.owner._id)
-        a(href=`${video.id}/edit`) Edit Video &rarr;
-        br
-        a(href=`${video.id}/delete`) Delete Video &rarr;
+        div.owner-btns
+            a(href=`${video.id}/edit`).edit-btn 동영상 수정
+            a(href=`${video.id}/delete`).delete-btn 동영상 삭제
+
     if loggedIn
-        div.video__add-comments
-            form.video__comment-form#commentForm
-                textarea(cols="30", rows="10", placeholder="Write a nice commment...")
-                button Add Comment
+        form.video__comment-form.form-base#commentForm
+            input(type="text", placeholder="댓글을 입력하세요.")#commentTextarea.input-base
+            button 댓글 입력
 
-    div.video__comments
-        ul
-            each comment in video.comments.reverse()
-                li.video__comment(data-id=comment.id)
-                    i.fas.fa-comment
-                    span  #{comment.text} 
-                    if String(user && user._id) === String(comment.owner)
-                        span.delete-btn.js-delete-btn ❌
+    ul.video__comments
+        each comment in video.comments.reverse()
+            li.comment(data-id=comment.id)
+                div.contents
+                    a(href=`/users/${comment.owner._id}`).avatar
+                        if comment.owner.avatarURL != "/static/img/global/profile-user.png"
+                            if isHeroku
+                                img(src=comment.owner.avatarURL)
+                            else 
+                                img(src=`${comment.owner.avatarURL}`)
+                        else
+                            div.text-avatar
+                                span #{comment.owner.username[0]}
+                    a(href=`/users/${comment.owner._id}`).contents__username=comment.owner.username
+                    span.contents__comment-text=comment.text
+                    div.related-btns
+                        if String(user && user._id) === String(comment.owner)
+                            a(href=``) 삭제
+                        //- a(href=``) 답글
+                div.createdAt
+                    span #{String(comment.createdAt.getFullYear())}-#{("0" + String(comment.createdAt.getMonth()+1)).slice(-2)}-#{("0" + String(comment.createdAt.getDate())).slice(-2)} - #{("0" + String(comment.createdAt.getHours())).slice(-2)}:#{("0" + String(comment.createdAt.getMinutes())).slice(-2)}
 
 
 
-block scripts 
+block scripts
+    if user
+        script(type="text/javascript").
+            const user = !{JSON.stringify(user)};
+    else 
+        script(type="text/javascript").
+            const user = null;
+    script(type="text/javascript").
+        const group = !{JSON.stringify(video.videoGroup)};
     script(src="/static/js/watch.js") 
     script(src="/static/js/videoPlayer.js") 
     if loggedIn
         script(src="/static/js/commentSection.js") 
+    

@@ -1,26 +1,201 @@
 .watch-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: calc(90vh - 82px);
+  width: 100%;
 }
 
-.video__comments {
+.video-info-wrapper{
+  position: relative;
   display: flex;
-  flex-direction: column;
-  max-width: 320px;
-  width: 100%;
-  margin: 0 auto;
+  flex-wrap: wrap;
   margin-top: 20px;
-  .video__comment {
-    padding: 10px;
-    border-radius: 9999px;
-    background-color: #f8f8f8;
-    color: black;
-    margin-bottom: 10px;
+  padding-bottom: 20px;
+  border-bottom: solid 2px #f0f0f0;
+  .video-info__hashtags{
+    display: flex;
+    width: 100%;
+    margin-bottom: 5px;
+    li{
+      margin-right: 5px;
+      color: #065FD4;
+      font-size: 13px;
+    }
+  }
+  .video-info__title{
+    width: 100%;
+    font-size: 22px;
+    margin-bottom: 15px;
+  }
+  .video-info__views-set{
+    font-size: 13px;
+    color: #606060;
+    margin-bottom: 20px;
+  }
+  .video-info__owner-set{
+    position: absolute;
+    right: 10px;
+    top: 65px;
+    display: flex;
+    align-items: center;
+    padding-bottom: 10px;
+    border-bottom: solid 3px gray;
+    &:hover{
+      border-bottom-color: #005fc2;
+    }
+    img, .text-avatar{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      margin-right: 5px;
+      background-color: gray;
+    }
+    span{
+      font-weight: bold;
+      color: #6d6d6d;
+    }
+    .text-avatar{
+      span{
+        color: white;
+      }
+    }
+  }
+  .video-info__description{
+    width: 100%;
+    padding-left: 10px;
+    font-size: 16px;
+    color: #434343;
+  }
+}
+
+.watch-video-group{
+  margin: 20px 0;
+  padding-bottom: 20px;
+  border-bottom: solid 2px #f0f0f0;
+  .group-name{
+    font-size: 25px !important;
+  }
+  .avatar-wrapper{
+    display: block;
+  }
+  .description-wrapper{
+    display: block;
+  }
+  .follow-btn{
+      position: relative !important;
+      margin-left: 30px;
+  }
+}
+
+.owner-btns{
+  display: flex;
+  margin-bottom: 20px;
+  .edit-btn, .delete-btn{
+    margin-right: 10px;
+    padding: 10px 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #b6b6b6;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
   }
 }
 
 .delete-btn {
   cursor: pointer;
+}
+
+.video__comment-form {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+  input{
+    height: 70px;
+    border: solid 2px #eeeeee;
+    border-radius: 10px;
+    padding: 0 15px;
+    margin-bottom: 10px;
+    resize: none;
+    font-size: 16px;
+    font-family: 'Noto Sans KR', sans-serif;
+    &::placeholder{
+      color: #c2c2c2;
+      font-family: 'Noto Sans KR', sans-serif;
+      font-size: 16px;
+    }
+    &:focus{
+      outline: none;
+    }
+  }
+  button{
+    padding: 10px 0;
+    border: none;
+    border-radius: 10px;
+    background-color: #eeeeee;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: bold;
+    font-size: 16px;
+    color: gray;
+    cursor: pointer;
+  }
+}
+
+.video__comments{
+  .comment{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    padding: 20px;
+    border-radius: 5px;
+    border-bottom: solid 1px #f4f4f4;
+    .contents{
+      width: calc(100% - 200px);
+      position: relative;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      .avatar{
+        display: flex;
+        align-items: center;
+        margin-right: 7px;
+        img, .text-avatar{
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 27px;
+          height: 27px;
+          border-radius: 50%;
+          background-color: gray;
+        }
+        span{
+          font-weight: bold;
+          color: #6d6d6d;
+        }
+        .text-avatar{
+          span{
+            color: white;
+          }
+        }
+      }
+      .contents__username{
+        margin-right: 5px;
+        color:#009cff;
+      }
+      .contents__comment{
+        color: black;
+      }
+      .related-btns{
+        width: 100%;
+        margin-top: 20px;
+        padding-left: 34px;
+        color: #e0e0e0;
+      }
+    }
+    .createdAt{
+      text-align: right;
+      width: 200px;
+      color: #c4c4c4;
+    }
+  }
 }

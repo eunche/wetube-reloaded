@@ -45,8 +45,11 @@
 }
 
 .search-wrapper{
-    margin-bottom: 30px;
-    max-width: 500px;
+    position: relative;
+    bottom: 2px;
+    display: inline-block;
+    max-width: 200px;
+    margin-left: 10px;
     .search-set{
       display: flex;
       align-items: center;

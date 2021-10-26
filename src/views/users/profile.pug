@@ -9,7 +9,7 @@ block content
         else
             div.avatar-default.js-avatar-default #{profileUser.name}
         h3=profileUser.name
-        if String(profileUser._id) == String(user._id)
+        if user && String(profileUser._id) == String(user._id)
             div.button-wrapper
                 a(href=`/users/edit`).profile__edit-btn Edit Profile
                 a(href=`/users/logout`).profile__edit-btn Logout
